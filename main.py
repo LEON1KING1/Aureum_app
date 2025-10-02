@@ -37,7 +37,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if user.username not in user_balances:
         user_balances[user.username] = 100
 
-    
+  
     await context.bot.set_chat_menu_button(
         chat_id=update.effective_chat.id,
         menu_button=MenuButtonWebApp(text="Open Aureum App", web_app=WebAppInfo(url=WEBAPP_URL))
