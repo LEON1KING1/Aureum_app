@@ -19,4 +19,5 @@ Trying application that works as a leisure boot + simple web interface:
 
 ---
 
-✍️ It was developed by [LEON1KING1] (https://github.com/username)
+
+✍️ It was developed by [LEON] (https://github.com/LEON1KING1)
