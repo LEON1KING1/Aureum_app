@@ -1,71 +1,64 @@
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
   background: #000;
-  color: #fff;
+  color: white;
   text-align: center;
-  margin: 0;
-  padding: 0;
 }
 
-.app-container {
+.page {
+  display: none;
   padding: 20px;
 }
 
-.logo {
-  width: 120px;
-  margin: 20px auto;
+.page.active {
   display: block;
 }
 
-h1 {
-  color: gold;
-  margin-bottom: 10px;
-}
-
-p {
-  color: #ccc;
-}
-
-.buttons {
+.logo img {
+  width: 120px;
   margin: 20px 0;
 }
 
+
 .gold-btn {
-  display: block;
-  width: 80%;
-  margin: 10px auto;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #000;
-  background: linear-gradient(45deg, gold, orange);
+  background: linear-gradient(45deg, #FFD700, #FF8C00);
+  color: black;
   border: none;
-  border-radius: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
+  margin: 5px 0;
+  font-weight: bold;
 }
 
-.gold-btn:hover {
-  background: linear-gradient(45deg, orange, gold);
+.gold-btn.small {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.gold-btn:disabled {
+  background: gray;
+  cursor: not-allowed;
 }
 
 
-.fixed-button {
+.navbar {
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   background: #111;
-  padding: 15px;
-  text-align: center;
-  border-top: 2px solid gold;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid #FFD700;
 }
 
-.fixed-button a {
-  text-decoration: none;
-  color: #000;
-  background: gold;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: bold;
+.navbar button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
 }
