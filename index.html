@@ -11,10 +11,15 @@
     <img src="Aureum.png" alt="Aureum Logo" class="logo">
 
     <h1>Welcome to Aureum 💎</h1>
-    <p class="desc">Earn AUR daily through mining & community rewards.</p>
+    <p class="desc">Earn AUR daily through mining and community rewards.</p>
+
+    <div class="balance-box">
+      <p>💰 Your Balance: <span id="balance">0</span> AUR</p>
+    </div>
 
     <div class="button-group">
       <button class="gold-btn" id="mineBtn">⛏️ Start Mining</button>
+      <button class="gold-btn" id="claimBtn">🎁 Claim Rewards</button>
       <button class="gold-btn" onclick="window.open('https://x.com/Aureum_Token','_blank')">🐦 Twitter</button>
       <button class="gold-btn" onclick="window.open('https://t.me/AureumToken','_blank')">📢 Telegram</button>
       <button class="gold-btn" onclick="window.open('https://t.me/AureumToken_bot','_blank')">🤖 Bot</button>
@@ -24,8 +29,19 @@
   </div>
 
   <script>
+    let balance = localStorage.getItem("aur_balance") ? parseInt(localStorage.getItem("aur_balance")) : 100;
+    const balanceEl = document.getElementById("balance");
     const mineBtn = document.getElementById("mineBtn");
+    const claimBtn = document.getElementById("claimBtn");
     const timerEl = document.getElementById("timer");
+
+    balanceEl.textContent = balance;
+
+    function updateBalance(amount) {
+      balance += amount;
+      localStorage.setItem("aur_balance", balance);
+      balanceEl.textContent = balance;
+    }
 
     function startMining() {
       const lastMine = localStorage.getItem("lastMine");
@@ -39,11 +55,18 @@
       }
 
       alert("✅ You mined 10 AUR!");
+      updateBalance(10);
       localStorage.setItem("lastMine", now);
       timerEl.textContent = "⛏️ Come back after 24 hours to mine again.";
     }
 
+    function claimRewards() {
+      alert("🎁 You claimed 5 bonus AUR for being active!");
+      updateBalance(5);
+    }
+
     mineBtn.addEventListener("click", startMining);
+    claimBtn.addEventListener("click", claimRewards);
   </script>
 </body>
 </html>
