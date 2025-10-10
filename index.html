@@ -7,45 +7,43 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
- 
-  <section id="home" class="page active">
-    <div class="logo">
-      <img src="Aureum.png" alt="Aureum Logo">
+  <div class="app-container">
+    <img src="Aureum.png" alt="Aureum Logo" class="logo">
+
+    <h1>Welcome to Aureum 💎</h1>
+    <p class="desc">Earn AUR daily through mining & community rewards.</p>
+
+    <div class="button-group">
+      <button class="gold-btn" id="mineBtn">⛏️ Start Mining</button>
+      <button class="gold-btn" onclick="window.open('https://x.com/Aureum_Token','_blank')">🐦 Twitter</button>
+      <button class="gold-btn" onclick="window.open('https://t.me/AureumToken','_blank')">📢 Telegram</button>
+      <button class="gold-btn" onclick="window.open('https://t.me/AureumToken_bot','_blank')">🤖 Bot</button>
     </div>
-    <h2 id="balance">Aureum: 100 💎</h2>
-    <button class="gold-btn" onclick="mine()">⛏ Start Mining</button>
-    <p id="mining-status"></p>
-    <h3>Tasks</h3>
-    <ul>
-      <li>Subscribe to Aureum channel – <button class="gold-btn small">Start</button></li>
-      <li>Follow and Retweet – <button class="gold-btn small">Start</button></li>
-      <li>Invite friends – <button class="gold-btn small">Start</button></li>
-    </ul>
-  </section>
 
-  
-  <section id="leaderboard" class="page">
-    <h2>Telegram Wall of Fame</h2>
-    <ul>
-      <li>#1 UserA – 5000 💎</li>
-      <li>#2 UserB – 4200 💎</li>
-      <li>#3 UserC – 3800 💎</li>
-    </ul>
-  </section>
+    <p id="timer" class="timer"></p>
+  </div>
 
-  
-  <section id="friends" class="page">
-    <h2>Invite friends and get more Aureum</h2>
-    <button class="gold-btn">👥 Invite Friends</button>
-  </section>
+  <script>
+    const mineBtn = document.getElementById("mineBtn");
+    const timerEl = document.getElementById("timer");
 
-  
-  <nav class="navbar">
-    <button onclick="showPage('home')">🏠 Home</button>
-    <button onclick="showPage('leaderboard')">🏆 Leaderboard</button>
-    <button onclick="showPage('friends')">👥 Friends</button>
-  </nav>
+    function startMining() {
+      const lastMine = localStorage.getItem("lastMine");
+      const now = Date.now();
+      if (lastMine && now - lastMine < 24 * 60 * 60 * 1000) {
+        const remaining = 24 * 60 * 60 * 1000 - (now - lastMine);
+        const hours = Math.floor(remaining / (1000 * 60 * 60));
+        const mins = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        timerEl.textContent = `⏳ Next mining in ${hours}h ${mins}m`;
+        return;
+      }
 
-  <script src="script.js"></script>
+      alert("✅ You mined 10 AUR!");
+      localStorage.setItem("lastMine", now);
+      timerEl.textContent = "⛏️ Come back after 24 hours to mine again.";
+    }
+
+    mineBtn.addEventListener("click", startMining);
+  </script>
 </body>
 </html>
