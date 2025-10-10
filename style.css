@@ -1,64 +1,60 @@
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
   background: #000;
-  color: white;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-.page {
-  display: none;
-  padding: 20px;
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-.page.active {
-  display: block;
-}
-
-.logo img {
+.logo {
   width: 120px;
-  margin: 20px 0;
+  margin-bottom: 20px;
 }
 
+h1 {
+  color: #d4af37;
+  font-size: 2em;
+}
+
+.desc {
+  font-size: 1em;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .gold-btn {
-  background: linear-gradient(45deg, #FFD700, #FF8C00);
-  color: black;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 5px 0;
+  background: linear-gradient(135deg, #d4af37, #b8860b);
+  color: #000;
   font-weight: bold;
-}
-
-.gold-btn.small {
-  padding: 6px 12px;
-  font-size: 14px;
-}
-
-.gold-btn:disabled {
-  background: gray;
-  cursor: not-allowed;
-}
-
-
-.navbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #111;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  border-top: 1px solid #FFD700;
-}
-
-.navbar button {
-  background: none;
   border: none;
-  color: white;
-  font-size: 18px;
+  padding: 12px 30px;
+  border-radius: 12px;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.gold-btn:hover {
+  background: linear-gradient(135deg, #ffcf40, #b8860b);
+  transform: scale(1.05);
+}
+
+.timer {
+  margin-top: 20px;
+  font-size: 1.1em;
+  color: #d4af37;
 }
