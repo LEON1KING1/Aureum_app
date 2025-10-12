@@ -1,25 +1,22 @@
 # Aureum App
 
-Welcome to the ** Aureum App ** 🚀
+Welcome to the *Aureum App* 🚀
 
-## ⚡️ Description
-Trying application that works as a leisure boot + simple web interface:
-- 🎨 Stylish golden design
-- The balance of the balance
-- Call friends
-- Mining
+## ⚡ Description
+A demo application that works as a leisure bot + simple web interface:
+- 🎨 Stylish golden design  
+- 💰 Balance tracking  
+- 🤝 Invite friends  
+- ⛏ Mining rewards  
 
-## 🌐 Site link
-[Open the app here] (https://username.github.io/aureum_App/)
+## 🌐 Site Link
+[Open the app here](https://username.github.io/Aureum_App/)
 
 ## 📦 Files
-`index.html' → Home page
-- Style.css` → Format and Design
-- Assets/`Pictures and slogans
+- index.html → Home page  
+- style.css → Layout and design  
+- assets/ → Images and logos  
 
 ---
 
-
-✍️ It was developed by [LEON] (https://github.com/LEON1KING1)
-
-
+✍ Developed by [LEON](https://github.com/LEON1KING1)
