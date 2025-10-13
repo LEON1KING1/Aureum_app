@@ -83,4 +83,4 @@ PORT	Default 8080
 
 💬 Author
 
-Developed with ❤ by [LEON
+Developed with ❤ by LEON
