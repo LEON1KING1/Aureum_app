@@ -1,0 +1,20 @@
+
+:root{--bg:#071129;--card:#08142a;--accent:#ffb84d;--muted:#94a3b8}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma,Arial;background:linear-gradient(180deg,#031022 0%, #071129 100%);color:#e6eef8}
+.header{display:flex;align-items:center;flex-direction:column;padding:18px}
+.logo{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(255,160,30,0.8))}
+h1{margin:8px 0 0;font-size:24px;color:var(--accent)}
+.main{max-width:820px;margin:12px auto;padding:10px}
+.card{background:var(--card);padding:14px;border-radius:12px;margin:12px 0;box-shadow:0 8px 30px rgba(2,6,23,.6)}
+.status-line{display:flex;justify-content:space-between;align-items:center}
+#airdrop-status{padding:8px;background:#061427;border-radius:8px}
+#countdown{font-weight:bold}
+.balance{font-size:18px;margin-top:10px;color:#ffd59e}
+.status{margin-top:8px;padding:8px;background:#071428;border-radius:6px}
+input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #263144;background:#021023;color:#fff}
+button{background:var(--accent);border:none;padding:10px 12px;border-radius:8px;cursor:pointer;font-weight:bold}
+.small{font-size:13px}
+.tasks .task{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;margin:6px 0;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent)}
+.ref-badge{background:#022a1f;padding:6px;border-radius:6px;display:inline-block;margin-top:6px}
+footer{text-align:center;margin-top:18px;color:var(--muted)}

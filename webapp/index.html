@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Aureum AirDrop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <img src="assets/aureum_logo.png" alt="Aureum" class="logo">
+    <h1>Aureum AirDrop</h1>
+  </header>
+
+  <main class="main">
+    <section class="card status-card">
+      <div class="status-line">
+        <div id="airdrop-status">جاري التحميل...</div>
+        <div id="countdown"></div>
+      </div>
+      <div class="balance">رصيدك: <span id="balance">-</span> AUR</div>
+    </section>
+
+    <section class="card actions">
+      <h3>تسجيل تلقائي</h3>
+      <p>سوف يتم التسجيل تلقائياً عند الدخول من داخل تيليجرام. أو أدخل ID أو Wallet يدوياً:</p>
+      <input id="telegram_id" placeholder="Telegram ID (إن لم يظهر)">
+      <input id="wallet" placeholder="محفظتك (اختياري)">
+      <button id="registerBtn">تسجيل</button>
+      <div id="status" class="status small"></div>
+    </section>
+
+    <section class="card tasks">
+      <h3>المهام</h3>
+      <div id="tasksList">جاري التحميل...</div>
+    </section>
+
+    <section class="card invites">
+      <h3>دعواتك</h3>
+      <div>رابط الإحالة: <input id="refLink" readonly></div>
+      <div>الانضمامات عبرك: <span id="refCount">0</span></div>
+    </section>
+
+    <section class="card claim">
+      <h3>طلب Airdrop</h3>
+      <input id="claimAmount" value="1" type="number" min="0.1" step="0.1">
+      <button id="claimBtn">اطلب الآن</button>
+    </section>
+
+    <footer>© Aureum</footer>
+  </main>
+
+<script src="script.js"></script>
+</body>
+</html>
