@@ -10,7 +10,7 @@ A demo application that works as a leisure bot + simple web interface:
 - ⛏ Mining rewards  
 
 ## 🌐 Site Link
-[Open the app here](https://username.github.io/Aureum_App/)
+[Open the app here](https://leon1king1.github.io/Aureum_App/)
 
 ## 📦 Files
 - index.html → Home page  
