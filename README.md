@@ -1,0 +1,1 @@
+Aureum final build. Set ADMIN_KEY in Replit secrets. Run on Replit or any server with Python 3.9+
