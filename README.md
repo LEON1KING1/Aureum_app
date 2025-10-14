@@ -28,56 +28,6 @@
 ## 🌐 Live Demo
 [🚀 Open the Aureum WebApp](https://leon1king1.github.io/Aureum_app/)
 
----
-
-## 🧱 Project Structure
-```
-
-Aureum_App/
-│
-├── infrastructure/
-│   └── main.py              # Flask backend (bot, user data, mining, security)
-│
-├── webapp/
-│   ├── index.html           # Main page
-│   ├── style.css            # Styling and layout
-│   ├── script.js            # Logic, mining, wallet, countdown
-│   └── assets/
-│       └── aureum_logo.png  # App logo
-│
-├── requirements.txt         # Dependencies
-├── .replit                  # Replit configuration
-└── README.md                # Documentation
-
-````
-
----
-
-## 🚀 Run Locally
-```bash
-# 1️⃣ Clone the repository
-git clone https://github.com/LEON1KING1/Aureum_App.git
-cd Aureum_App/infrastructure
-
-# 2️⃣ Install dependencies
-pip install -r ../requirements.txt
-
-# 3️⃣ Run the bot and web server
-python main.py
-````
-
-> Then open **[http://localhost:8080](http://localhost:8080)** or your Replit URL.
-
----
-
-## ⚙ Environment Variables
-
-| Variable      | Description                  |
-| ------------- | ---------------------------- |
-| `BOT_TOKEN`   | Telegram Bot Token           |
-| `ADMIN_KEY`   | Secret key for admin control |
-| `WEB_APP_URL` | URL of hosted webapp         |
-| `PORT`        | Default port (8080)          |
 
 ---
 
