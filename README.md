@@ -1,7 +1,7 @@
 
 
 <p align="center">
-  <img src="webapp/assets/aureum_logo.png" width="160" alt="Aureum Logo">
+  <img src="webapp/aureum_logo.png" width="160" alt="Aureum Logo">
 </p>
 
 <h1 align="center">✨ Aureum App ✨</h1>
