@@ -1,0 +1,28 @@
+:root{--gold1:#FFD700;--gold2:#FFA500;--bg:#0b0b0b}
+*{box-sizing:border-box}
+body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:#fff;margin:0;padding-bottom:90px}
+.container{max-width:720px;margin:0 auto;padding:18px;transition:opacity .3s,transform .3s}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+header h1{font-size:18px;margin:0;color:var(--gold1)}
+.card{background:#0f0f0f;border-radius:12px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.logo{width:120px;height:120px;margin:18px auto;background-size:contain;background-position:center;background-repeat:no-repeat;filter:drop-shadow(0 6px 20px rgba(255,160,0,0.12))}
+.small{color:#bdbdbd;font-size:13px}
+.muted{color:#9a9a9a}
+.balance{font-size:44px;font-weight:700;background:linear-gradient(135deg,var(--gold1),var(--gold2));-webkit-background-clip:text;color:transparent;text-align:center}
+.controls{display:flex;gap:12px;margin-top:12px;justify-content:center}
+.btn{background:linear-gradient(135deg,var(--gold1),var(--gold2));color:#000;padding:12px 18px;border-radius:12px;border:0;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(255,180,0,0.12)}
+.section-title{font-weight:600;margin:6px 0 12px 0;color:#e8e1d1}
+.task{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:#131313;margin-bottom:10px;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.task:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+.task-title{font-weight:600}
+.task-reward{color:var(--gold1);font-weight:700}
+.bottom-nav{position:fixed;left:0;right:0;bottom:0;background:#0a0a0a;border-top:1px solid #151515;display:flex;justify-content:space-around;padding:12px}
+.nav-item{color:#bdbdbd;text-align:center;cursor:pointer;padding:6px 8px}
+.nav-item.active{color:var(--gold1);background:linear-gradient(90deg,rgba(255,215,0,0.06),transparent);border-radius:8px}
+@keyframes glowPulse{0%{box-shadow:0 0 0px rgba(255,215,0,0)}50%{box-shadow:0 0 30px rgba(255,215,0,0.35)}100%{box-shadow:0 0 0px rgba(255,215,0,0)}}
+.glow{animation:glowPulse 1.6s ease-in-out 1}
+.splash{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,0.85),#000);z-index:9999}
+.splash-inner{display:flex;flex-direction:column;align-items:center;gap:12px;animation:pop .9s ease}
+.splash-logo{width:120px;height:120px;background-size:contain}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.hidden{display:none}
