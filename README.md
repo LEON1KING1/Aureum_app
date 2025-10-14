@@ -1,5 +1,3 @@
----
-
 ```markdown
 ---
 
@@ -17,20 +15,19 @@
 ---
 
 ## ⚡ Features
-- 🪙 **Real-time user balance tracking**
-- ⛏️ **Mining button (every 24 hours)**
-- 🤝 **Invite & referral rewards system**
-- 🎯 **Daily and social tasks with real rewards**
-- 🔒 **Airdrop system (locked until activation)**
-- 💾 **Automatic user registration & data saving**
-- 💎 **Golden modern UI with animation and protection**
-- 🔧 **Ready for Replit and GitHub Pages hosting**
+- 🪙 **Real-time balance tracking**
+- ⛏️ **Daily mining (every 24 hours)**
+- 🤝 **Invite & referral rewards**
+- 🎯 **Social & daily tasks with payouts**
+- 🔒 **Airdrop system (locked until launch)**
+- 💾 **Automatic user registration and save system**
+- 💎 **Modern gold-themed design with protection**
+- 🔧 **Works perfectly on Replit & GitHub Pages**
 
 ---
 
 ## 🌐 Live Demo
-[🚀 Open the Aureum WebApp](https://leon1king1.github.io/Aureum_app/)  
-> (Update this link if your GitHub Pages or Replit URL changes)
+[🚀 Open the Aureum WebApp](https://leon1king1.github.io/Aureum_app/)
 
 ---
 
@@ -40,25 +37,24 @@
 Aureum_App/
 │
 ├── infrastructure/
-│   └── main.py              # Flask backend (bot logic, users, tasks, mining, security)
+│   └── main.py              # Flask backend (bot, user data, mining, security)
 │
 ├── webapp/
-│   ├── index.html           # Main interface
-│   ├── style.css            # Design, colors, and animation
-│   ├── script.js            # Frontend logic, countdown, wallet linking
+│   ├── index.html           # Main page
+│   ├── style.css            # Styling and layout
+│   ├── script.js            # Logic, mining, wallet, countdown
 │   └── assets/
 │       └── aureum_logo.png  # App logo
 │
 ├── requirements.txt         # Dependencies
-├── .replit                  # Replit configuration file
-└── README.md                # This documentation
+├── .replit                  # Replit configuration
+└── README.md                # Documentation
 
 ````
 
 ---
 
 ## 🚀 Run Locally
-
 ```bash
 # 1️⃣ Clone the repository
 git clone https://github.com/LEON1KING1/Aureum_App.git
@@ -67,14 +63,38 @@ cd Aureum_App/infrastructure
 # 2️⃣ Install dependencies
 pip install -r ../requirements.txt
 
-# 3️⃣ Run the app
+# 3️⃣ Run the bot and web server
 python main.py
 ````
 
-> Then open **[http://localhost:8080](http://localhost:8080)** in your browser or your Replit link.
+> Then open **[http://localhost:8080](http://localhost:8080)** or your Replit URL.
 
 ---
 
 ## ⚙ Environment Variables
 
-Create a `.env` file or add Secrets in
+| Variable      | Description                  |
+| ------------- | ---------------------------- |
+| `BOT_TOKEN`   | Telegram Bot Token           |
+| `ADMIN_KEY`   | Secret key for admin control |
+| `WEB_APP_URL` | URL of hosted webapp         |
+| `PORT`        | Default port (8080)          |
+
+---
+
+## 📊 Future Updates
+
+* ⏳ Airdrop activation system
+* 💰 Mining rewards optimization
+* 🌍 Multi-language UI
+* 🏆 Leaderboard for referrals
+
+---
+
+## 💬 Author
+
+Developed with ❤️ by **[LEON](https://github.com/LEON1KING1)**
+
+```
+```
+
