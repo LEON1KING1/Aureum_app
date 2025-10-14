@@ -1,6 +1,4 @@
----
-```markdown
----
+
 
 <p align="center">
   <img src="webapp/assets/aureum_logo.png" width="160" alt="Aureum Logo">
