@@ -1,103 +1,20 @@
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #0a0a0a;
-  color: #f1f1f1;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
+body { font-family: 'Poppins', sans-serif; background: #0a0a0a; color: #f1f1f1; margin: 0; padding: 0; text-align: center;}
 .container { padding: 20px; }
 .hidden { display: none; }
-
-header h1 {
-  margin: 10px 0 20px;
-  font-size: 26px;
-}
-
-.card {
-  background: #1a1a1a;
-  border-radius: 14px;
-  padding: 20px;
-  margin: 10px auto;
-  max-width: 340px;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-.card:hover { transform: scale(1.02); }
-
-.logo {
-  width: 80px;
-  height: 80px;
-  background: url('aureum_logo.png') center/cover no-repeat;
-  margin: 10px auto;
-}
-
-.small { font-size: 13px; }
-.muted { color: #999; }
-
-.balance {
-  font-size: 28px;
-  margin: 10px 0;
-  color: #ffd700;
-  font-weight: bold;
-}
-
-.btn {
-  background: linear-gradient(135deg, #ffd700, #ffb300);
-  border: none;
-  color: #000;
-  padding: 10px 16px;
-  border-radius: 8px;
-  margin: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
-}
-.btn:hover {
-  background: linear-gradient(135deg, #ffb300, #ffd700);
-  transform: scale(1.05);
-}
-
-.section-title {
-  margin-top: 30px;
-  font-size: 18px;
-  color: #ffd700;
-}
-
-.task {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #1a1a1a;
-  padding: 12px 16px;
-  margin: 8px auto;
-  max-width: 340px;
-  border-radius: 10px;
-  transition: background 0.3s ease;
-  cursor: pointer;
-}
-.task:hover { background: #2b2b2b; }
-.task-reward { color: #ffd700; font-weight: 600; }
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-around;
-  background: #1a1a1a;
-  padding: 10px 0;
-}
-.nav-item { color: #aaa; font-weight: 500; cursor: pointer; }
-.nav-item.active { color: #ffd700; }
-
-.mining-flash {
-  animation: flash 0.6s ease-in-out;
-}
-@keyframes flash {
-  0% { background-color: rgba(255, 215, 0, 0.1); }
-  50% { background-color: rgba(255, 215, 0, 0.4); }
-  100% { background-color: transparent; }
-}
+header h1 { margin: 10px 0 20px; font-size: 26px; color:#ffd700; }
+.card { background: #1a1a1a; border-radius: 14px; padding: 20px; margin: 10px auto; max-width: 420px; box-shadow: 0 0 10px rgba(255,215,0,0.08); transition: transform 0.3s ease; }
+.logo { width: 80px; height: 80px; background: url('aureum_logo.png') center/contain no-repeat; margin: 10px auto; filter: drop-shadow(0 6px 20px rgba(255,160,0,0.12)); }
+.small { font-size: 13px; color:#ccc; }
+.muted { color:#999; }
+.balance { font-size: 32px; margin: 10px 0; color: #ffd700; font-weight: 700; }
+.btn { background: linear-gradient(135deg,#ffd700,#ffb300); border: none; color: #000; padding: 10px 16px; border-radius: 8px; margin: 5px; cursor: pointer; font-weight: 600; transition: transform .15s; }
+.btn:active { transform: scale(.98); }
+.section-title { margin-top: 30px; font-size: 18px; color: #ffd700; }
+.task { display:flex; justify-content:space-between; align-items:center; background:#121212; padding:12px 16px; margin:8px auto; max-width:420px; border-radius:10px; cursor:pointer; transition: transform .15s; }
+.task:hover { transform: translateY(-4px); }
+.task-reward { color:#ffd700; font-weight:700; }
+.bottom-nav { position: fixed; bottom:0; left:0; right:0; display:flex; justify-content:space-around; background:#111; padding:10px 0; border-top:1px solid #222; }
+.nav-item { color:#aaa; font-weight:500; cursor:pointer; }
+.nav-item.active { color:#ffd700; }
+.mining-flash { animation: flash 0.6s ease-in-out; }
+@keyframes flash { 0%{background-color:rgba(255,215,0,0.12);}50%{background-color:rgba(255,215,0,0.35);}100%{background-color:transparent;} }
