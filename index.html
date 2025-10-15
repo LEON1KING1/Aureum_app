@@ -1,26 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Aureum — Web App</title>
-  <link rel="icon" href="aureum_logo.png">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script src="https://unpkg.com/@tonconnect/ui@1.0.4/dist/tonconnect-ui.umd.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aureum — Web App</title>
+<link rel="icon" href="aureum_logo.png">
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <div id="splash" class="splash">
-    <div class="splash-inner">
-      <img src="aureum_logo.png" alt="Aureum" class="splash-logo">
-      <h2>Welcome to Aureum</h2>
-    </div>
-  </div>
-
   <div class="container" id="homeScreen">
     <header><h1>⚡ Aureum</h1></header>
 
-    <div class="card" id="mainCard">
+    <div class="card">
       <div class="logo" role="img" aria-hidden="true"></div>
       <div class="small">Your Balance</div>
       <div class="balance" id="balance">0</div>
@@ -35,7 +27,7 @@
 
     <div class="section-title">Tasks</div>
 
-    <div class="task" data-id="subscribe" onclick="claimTask('subscribe')">
+    <div class="task" data-id="subscribe" onclick="window.open('https://x.com/Aureum_Token', '_blank')">
       <div>
         <div class="task-title">Subscribe on X</div>
         <div class="small">Stay updated with Aureum</div>
@@ -43,7 +35,7 @@
       <div class="task-reward">+700</div>
     </div>
 
-    <div class="task" data-id="follow" onclick="claimTask('follow')">
+    <div class="task" data-id="follow">
       <div>
         <div class="task-title">Follow & Share on X</div>
         <div class="small">Retweet / Promote</div>
@@ -51,7 +43,7 @@
       <div class="task-reward">+1200</div>
     </div>
 
-    <div class="task" data-id="join_channel" onclick="claimTask('join_channel')">
+    <div class="task" data-id="join_channel" onclick="window.open('https://t.me/AureumToken', '_blank')">
       <div>
         <div class="task-title">Join Telegram Channel</div>
         <div class="small">Community access</div>
@@ -59,7 +51,7 @@
       <div class="task-reward">+1000</div>
     </div>
 
-    <div class="task" data-id="invite" onclick="claimTask('invite')">
+    <div class="task" data-id="invite" onclick="window.open('https://t.me/AureumToken_bot', '_blank')">
       <div>
         <div class="task-title">Invite friends</div>
         <div class="small">Referral bonus for both</div>
@@ -96,6 +88,6 @@
     <div class="nav-item" data-screen="wallet">Wallet</div>
   </div>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
