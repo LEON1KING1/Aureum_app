@@ -1,1 +1,1 @@
-flask\nflask-cors\n
+Flask==3.0.3
