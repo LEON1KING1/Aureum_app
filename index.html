@@ -1,12 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Aureum — Web App</title>
 <link rel="icon" href="aureum_logo.png">
 <link rel="stylesheet" href="style.css">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <div class="container" id="homeScreen">
@@ -23,6 +22,9 @@
       </div>
 
       <div id="mineMsg" class="small muted"></div>
+      <div id="inviteBlock" class="small muted" style="margin-top:8px;display:none;">
+        Invite link: <a id="inviteLink" href="#" target="_blank"></a>
+      </div>
     </div>
 
     <div class="section-title">Tasks</div>
@@ -35,7 +37,7 @@
       <div class="task-reward">+700</div>
     </div>
 
-    <div class="task" data-id="follow">
+    <div class="task" data-id="follow" onclick="window.open('https://x.com/Aureum_Token', '_blank')">
       <div>
         <div class="task-title">Follow & Share on X</div>
         <div class="small">Retweet / Promote</div>
@@ -51,7 +53,7 @@
       <div class="task-reward">+1000</div>
     </div>
 
-    <div class="task" data-id="invite" onclick="window.open('https://t.me/AureumToken_bot', '_blank')">
+    <div class="task" data-id="invite" onclick="shareInvite()">
       <div>
         <div class="task-title">Invite friends</div>
         <div class="small">Referral bonus for both</div>
