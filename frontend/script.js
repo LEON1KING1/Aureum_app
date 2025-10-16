@@ -1,4 +1,4 @@
-const API = "https://replit.com/@aureumtokenn/Aureumapp";
+const API = "https://aadb8d65-6daf-4df2-9a2e-2e452f2773ea-00-25isq9j9z2aai.janeway.replit.dev";
 const DAY_REWARD = 1000;
 let currentUser = localStorage.getItem("aureum_user") || "";
 let tcInstance = null;
