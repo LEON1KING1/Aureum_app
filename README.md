@@ -1,6 +1,6 @@
 ---
 <p align="center">
-  <img src="frontend/aureum_logo.png" width="160" alt="Aureum Logo">
+  <img src="aureum_logo.png" width="160" alt="Aureum Logo">
 </p>
 
 <h1 align="center">✨ Aureum App ✨</h1>
