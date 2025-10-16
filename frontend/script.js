@@ -1,4 +1,4 @@
-const API = location.origin;
+const API = "https://aureumflow.yourname.repl.co";
 const DAY_REWARD = 1000;
 let currentUser = localStorage.getItem("aureum_user") || "";
 let tcInstance = null;
