@@ -6,6 +6,8 @@
 <title>Aureum — Web App</title>
 <link rel="icon" href="aureum_logo.png">
 <link rel="stylesheet" href="style.css">
+<!-- TonConnect SDK (if you want a specific bundle change URL to your preferred CDN) -->
+<script src="https://unpkg.com/@tonconnect/sdk/dist/tonconnect.browser.js"></script>
 </head>
 <body>
   <div class="container" id="homeScreen">
@@ -16,12 +18,17 @@
       <div class="small">Your Balance</div>
       <div class="balance" id="balance">0</div>
 
-      <div class="controls">
-        <button class="btn" id="connectBtn">Connect Wallet</button>
-        <button class="btn" id="mineBtn">Mine Now</button>
+      <div class="progress-wrap" style="margin-top:10px">
+        <div class="progress-bar" id="progressBar"><div id="progressFill"></div></div>
+        <div class="progress-text small muted" id="progressText">0 / 1000 AUR today</div>
       </div>
 
-      <div id="mineMsg" class="small muted"></div>
+      <div class="controls">
+        <button class="btn" id="connectBtn">Connect Wallet</button>
+        <button class="btn" id="mineBtn">Start Mining</button>
+      </div>
+
+      <div id="mineMsg" class="small muted" style="margin-top:8px"></div>
       <div id="inviteBlock" class="small muted" style="margin-top:8px;display:none;">
         Invite link: <a id="inviteLink" href="#" target="_blank"></a>
       </div>
