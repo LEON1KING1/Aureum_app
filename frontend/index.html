@@ -6,7 +6,7 @@
 <title>Aureum — Web App</title>
 <link rel="icon" href="aureum_logo.png">
 <link rel="stylesheet" href="style.css">
-<script>/* minimal telegram webapp safety */</script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   <div class="container" id="homeScreen">
@@ -23,8 +23,8 @@
       </div>
 
       <div class="controls">
-        <button class="btn" id="connectBtn">Connect Wallet (TON)</button>
-        <button class="btn" id="mineBtn">Start Mining</button>
+        <button class="btn" id="connectBtn">Connect (via Telegram)</button>
+        <button class="btn" id="mineBtn">Request Balance</button>
       </div>
 
       <div id="mineMsg" class="small muted" style="margin-top:8px"></div>
@@ -34,9 +34,39 @@
     </div>
 
     <div class="section-title">Tasks</div>
-    <!-- tasks kept as before -->
-    <div class="task" data-id="subscribe" onclick="window.open('https://x.com/Aureum_Token', '_blank')">...</div>
-    <!-- ...other tasks... -->
+
+    <div class="task" data-id="subscribe" onclick="window.open('https://x.com/Aureum_Token', '_blank')">
+      <div>
+        <div class="task-title">Subscribe on X</div>
+        <div class="small">Stay updated with Aureum</div>
+      </div>
+      <div class="task-reward">+700</div>
+    </div>
+
+    <div class="task" data-id="follow" onclick="window.open('https://x.com/Aureum_Token', '_blank')">
+      <div>
+        <div class="task-title">Follow & Share on X</div>
+        <div class="small">Retweet / Promote</div>
+      </div>
+      <div class="task-reward">+1200</div>
+    </div>
+
+    <div class="task" data-id="join_channel" onclick="window.open('https://t.me/AureumToken', '_blank')">
+      <div>
+        <div class="task-title">Join Telegram Channel</div>
+        <div class="small">Community access</div>
+      </div>
+      <div class="task-reward">+1000</div>
+    </div>
+
+    <div class="task" data-id="invite" onclick="shareInvite()">
+      <div>
+        <div class="task-title">Invite friends</div>
+        <div class="small">Referral bonus for both</div>
+      </div>
+      <div class="task-reward">Invite</div>
+    </div>
+
   </div>
 
 <script src="script.js"></script>
