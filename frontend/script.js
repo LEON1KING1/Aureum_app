@@ -1,9 +1,9 @@
+// API backend hosted on your Replit / Janeway URL
 const API = "https://aadb8d65-6daf-4df2-9a2e-2e452f2773ea-00-25isq9j9z2aai.janeway.replit.dev";
 const DAY_REWARD = 1000;
 let currentUser = localStorage.getItem("aureum_user") || "";
-let tcInstance = null;
+let tonconnect = null;
 
-// helper to get ?ref= in URL
 function q(name){ return new URLSearchParams(location.search).get(name); }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -23,32 +23,38 @@ function initUI(){
   document.getElementById("connectBtn").addEventListener("click", connectWallet);
   document.getElementById("changeWalletBtn")?.addEventListener("click", connectWallet);
   document.getElementById("mineBtn").addEventListener("click", () => {
-    document.getElementById("mineMsg").textContent = "Mining runs automatically (accrues continuously). Balance will update shortly.";
+    document.getElementById("mineMsg").textContent = "Mining accrues automatically — balance updates regularly.";
+  });
+  document.querySelectorAll(".task").forEach(t => {
+    t.addEventListener("click", () => {
+      const id = t.getAttribute("data-id");
+      if (id === "invite") return shareInvite();
+      alert("Open the link in a new tab, complete the task, then the team can verify and award tokens.");
+    });
   });
 }
 
-// TonConnect attempt, fallback to prompt
-async function connectWallet(){
+async function initTonConnect(){
   try {
     if (window.TonConnect) {
-      tcInstance = new TonConnect({ manifestUrl: location.origin + "/manifest.json" });
-      const transport = window.TonConnectTransportWeb; // some builds include transports
+      tonconnect = new TonConnect({ manifestUrl: location.origin + "/manifest.json" });
     }
-  } catch(e){ tcInstance = null; }
+  } catch(e){ tonconnect = null; }
+}
 
-  if (tcInstance && typeof tcInstance.connect === "function") {
+async function connectWallet(){
+  await initTonConnect();
+  if (tonconnect) {
     try {
-      const session = await tcInstance.connect();
-      // TonConnect returns array of accounts; adapt to SDK used in your bundle
-      const account = session?.account || session?.account?.address || session?.address || null;
+      // this code depends on the version of TonConnect SDK; adapt if needed
+      const session = await tonconnect.connect();
+      const account = session?.account || session?.address || (session?.accounts && session.accounts[0]) || null;
       if (account) {
         finishConnect(account);
         return;
       }
-    } catch(e){}
+    } catch(e){ console.warn("TonConnect connect failed", e); }
   }
-
-  // fallback prompt
   const addr = prompt("Enter your wallet address (TON address):");
   if (addr) finishConnect(addr.trim());
 }
@@ -57,12 +63,11 @@ async function finishConnect(addr){
   currentUser = addr;
   localStorage.setItem("aureum_user", currentUser);
   document.getElementById("walletAddr").textContent = currentUser;
-  // register with ref if any
   const ref = localStorage.getItem("aureum_ref");
   await fetch(`${API}/api/register`, {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ user_id: currentUser, ref: ref })
+    body: JSON.stringify({ user_id: currentUser, ref })
   });
   showInvite(currentUser);
   updateLoop();
@@ -76,6 +81,17 @@ function showInvite(user){
   inviteBlock.style.display = "block";
 }
 
+async function registerUser(user){
+  try {
+    const ref = localStorage.getItem("aureum_ref");
+    await fetch(`${API}/api/register`, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({user_id: user, ref})
+    });
+  } catch(e){}
+}
+
 async function updateLoop(){
   if (!currentUser) return;
   try {
@@ -86,10 +102,10 @@ async function updateLoop(){
       const acc = Number(j.accumulated_today||0);
       const percent = Math.min(100, (acc / DAY_REWARD) * 100);
       document.getElementById("progressFill").style.width = percent + "%";
-      document.getElementById("progressText").textContent = `${Math.round(acc) } / ${DAY_REWARD} AUR today`;
+      document.getElementById("progressText").textContent = `${Math.round(acc)} / ${DAY_REWARD} AUR today`;
     }
   } catch(e){
-    console.error(e);
+    console.error("update error", e);
   }
 }
 
