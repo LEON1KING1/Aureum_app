@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Aureum — Web App</title>
+  <link rel="icon" href="aureum_logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <img src="aureum_logo.png" alt="Aureum Logo" class="logo" />
+    <h1>⚡ Aureum</h1>
+    <div id="wallet-section">
+      <input type="text" id="wallet" placeholder="Enter your identifier (e.g. TON address or tgid)" />
+      <button id="connect">Connect</button>
+    </div>
+    <div id="main-section" class="hidden">
+      <p id="balance">💰 Balance: 0 AUR</p>
+      <p id="days">📅 Days mined: 0</p>
+      <button id="mine">Mine Now</button>
+      <div class="ref">
+        <p>Your referral link:</p>
+        <input id="refLink" readonly />
+      </div>
+    </div>
+    <footer>
+      <a href="https://t.me/AureumToken">Telegram Channel</a> |
+      <a href="https://x.com/Aureum_Token">X (Twitter)</a> |
+      <a href="https://t.me/AureumToken_bot">Bot</a>
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
