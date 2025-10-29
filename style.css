@@ -1,48 +1,77 @@
 body {
-  background: radial-gradient(circle, #0f0f0f, #000);
-  color: #ffd700;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
-  padding: 0;
+  background: #0b0c10;
+  color: #fff;
   text-align: center;
 }
 .container {
-  max-width: 400px;
-  margin: 80px auto;
-  background: rgba(255, 215, 0, 0.05);
   padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-}
-.logo {
-  width: 100px;
-  margin-bottom: 10px;
-}
-button {
-  background: #ffd700;
-  color: #000;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-button:hover {
-  background: #fff45f;
-}
-input {
-  width: 90%;
-  padding: 8px;
-  border: 1px solid #ffd700;
-  border-radius: 8px;
-  background: #111;
-  color: #ffd700;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .hidden {
-  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
 }
-footer {
-  margin-top: 20px;
-  font-size: 14px;
+.card {
+  background: #1f2833;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.logo {
+  width: 80px;
+  height: 80px;
+  background: url('aureum_logo.png') center/cover no-repeat;
+  margin: 10px auto;
+}
+.balance {
+  font-size: 2em;
+  margin: 10px 0;
+}
+.btn {
+  background: linear-gradient(135deg, #45a29e, #66fcf1);
+  border: none;
+  color: #0b0c10;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover {
+  background: #66fcf1;
+  transform: scale(1.05);
+}
+.task {
+  background: #1f2833;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-title {
+  font-weight: 600;
+}
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: #1f2833;
+  padding: 10px 0;
+}
+.nav-item {
+  color: #66fcf1;
+  cursor: pointer;
+}
+.nav-item.active {
+  font-weight: bold;
+  color: #fff;
 }
