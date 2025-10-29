@@ -1,0 +1,77 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: #0b0c10;
+  color: #fff;
+  text-align: center;
+}
+.container {
+  padding: 20px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+.card {
+  background: #1f2833;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.logo {
+  width: 80px;
+  height: 80px;
+  background: url('aureum_logo.png') center/cover no-repeat;
+  margin: 10px auto;
+}
+.balance {
+  font-size: 2em;
+  margin: 10px 0;
+}
+.btn {
+  background: linear-gradient(135deg, #45a29e, #66fcf1);
+  border: none;
+  color: #0b0c10;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn:hover {
+  background: #66fcf1;
+  transform: scale(1.05);
+}
+.task {
+  background: #1f2833;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-title {
+  font-weight: 600;
+}
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  background: #1f2833;
+  padding: 10px 0;
+}
+.nav-item {
+  color: #66fcf1;
+  cursor: pointer;
+}
+.nav-item.active {
+  font-weight: bold;
+  color: #fff;
+}
