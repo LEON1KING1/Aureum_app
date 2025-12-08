@@ -1,25 +1,45 @@
-‏const tg = window.Telegram ? window.Telegram.WebApp : null;
-‏if(tg) tg.expand();
+‏document.addEventListener("DOMContentLoaded", () => {
+‏  const savedBalance = localStorage.getItem("aur_balance");
+‏  if (savedBalance) document.getElementById("balance").textContent = savedBalance;
+‏});
 ‏
-‏function showScreen(name){
-‏  document.querySelectorAll('.container').forEach(c=>c.classList.add('hidden'));
-‏  document.getElementById(name+'Screen').classList.remove('hidden');
-‏  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-‏  document.querySelector(`.nav-item[data-screen="${name}"]`).classList.add('active');
-‏}
+‏const mineBtn = document.getElementById("mineBtn");
+‏const balanceEl = document.getElementById("balance");
+‏const mineMsg = document.getElementById("mineMsg");
+‏let mining = false;
 ‏
-‏document.querySelectorAll('.nav-item').forEach(item=>{item.addEventListener('click', ()=> showScreen(item.dataset.screen));});
+‏mineBtn.addEventListener("click", async () => {
+‏  if (mining) return;
+‏  mining = true;
 ‏
-‏function connectWalletPrompt(){const addr=prompt('Enter your TON wallet address:');if(!addr) return;document.getElementById('walletAddr').innerText=addr;sendToBot({action:'connect_wallet', wallet: addr});}
-‏document.getElementById('connectBtn').addEventListener('click', connectWalletPrompt);
-‏document.getElementById('changeWalletBtn').addEventListener('click', connectWalletPrompt);
+‏  mineBtn.classList.add("mining-flash");
+‏  let seconds = 3;
+‏  mineMsg.textContent = `⛏️ Mining... ${seconds}s`;
 ‏
-‏document.getElementById('mineBtn').addEventListener('click', ()=>{sendToBot({action:'mine'});document.getElementById('mineMsg').innerText='Mining request sent...';});
+‏  const countdown = setInterval(() => {
+‏    seconds--;
+‏    mineMsg.textContent = `⛏️ Mining... ${seconds}s`;
+‏    if (seconds <= 0) {
+‏      clearInterval(countdown);
+‏      mineMsg.textContent = "✅ Mining complete! +10 AUR";
+‏      mineBtn.classList.remove("mining-flash");
 ‏
-‏document.querySelectorAll('.task').forEach(t=>{t.addEventListener('click', ()=>{const id=t.dataset.id;if(id==='invite'){openInvite();return;}sendToBot({action:'task', task_id: id});alert('Task submitted — reward will be processed by the bot.');});});
+‏      let balance = parseInt(balanceEl.textContent);
+‏      balance += 10;
+‏      balanceEl.textContent = balance;
+‏      localStorage.setItem("aur_balance", balance);
 ‏
-‏function openInvite(){if(!tg){alert('Open inside Telegram to use invite');return;}const username=tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.username?tg.initDataUnsafe.user.username:null;if(!username){alert('Set a Telegram username in your profile to use invites.');return;}const invite=`https://t.me/AureumToken_bot?start=${username}`;sendToBot({action:'invite', ref: username});tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(invite)}&text=${encodeURIComponent('Join Aureum and earn tokens! 💎')}`);}
+‏      mining = false;
+‏    }
+‏  }, 1000);
+‏});
 ‏
-‏function sendToBot(obj){if(!tg){alert('Open this page inside Telegram WebApp to interact with the bot.');return;}tg.sendData(JSON.stringify(obj));}
-‏
-‏showScreen('home');
+‏document.querySelectorAll(".nav-item").forEach(item => {
+‏  item.addEventListener("click", () => {
+‏    document.querySelectorAll(".container").forEach(c => c.classList.add("hidden"));
+‏    document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+‏    item.classList.add("active");
+‏    const target = item.getAttribute("data-screen");
+‏    document.getElementById(`${target}Screen`).classList.remove("hidden");
+‏  });
+‏});
