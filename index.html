@@ -4,11 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Aureum — Web App</title>
+
 <link rel="icon" href="aureum_logo.png">
 <link rel="stylesheet" href="style.css">
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tonconnect/sdk/dist/tonconnect.min.js"></script>
+
 </head>
 <body>
+
   <div class="container" id="homeScreen">
     <header><h1>⚡ Aureum</h1></header>
 
@@ -63,15 +68,20 @@
 
   <div class="container hidden" id="walletScreen">
     <header><h1>Wallet</h1></header>
+
     <div class="card">
       <div class="small">Connected wallet</div>
       <div id="walletAddr" class="small muted">Not connected</div>
-      <div style="margin-top:12px"><button class="btn" id="changeWalletBtn">Connect / Change Wallet</button></div>
+      <div style="margin-top:12px">
+        <button class="btn" id="changeWalletBtn">Connect / Change Wallet</button>
+      </div>
     </div>
 
     <div class="card">
       <div class="small">Airdrop</div>
-      <div id="airdropInfo" class="small muted">Airdrop locked — visible here when opened.</div>
+      <div id="airdropInfo" class="small muted">
+        Airdrop locked — visible here when opened.
+      </div>
     </div>
   </div>
 
