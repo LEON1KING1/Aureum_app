@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return id;
     }
     const userUUID = generateUserId();
-
     const tonConnect = new TonConnect({ manifestUrl: 'tonconnect-manifest.json' });
 
     const mineBtn = document.getElementById("mineBtn");
@@ -123,7 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
             item.classList.add("active");
             const target=item.getAttribute("data-screen");
-            document.getElementById(`${target}Screen`).classList.remove("hidden");
+            const screen = document.getElementById(`${target}Screen`);
+            if(screen) screen.classList.remove("hidden");
         });
     });
 
