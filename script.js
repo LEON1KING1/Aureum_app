@@ -73,7 +73,7 @@ mineBtn.addEventListener("click", () => {
     mining = false;
 
     startLiveCountdown();
-  }, 20); // 
+  }, 2000); // 
 });
 
 // navigation
