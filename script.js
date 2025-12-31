@@ -43,7 +43,7 @@ function startLiveCountdown() {
       mineBtn.disabled = true;
       mineMsg.textContent = `⏳ Next mining in ${formatTime(remaining)}`;
     }
-  }, 1000);
+  }, 10);
 }
 
 mineBtn.addEventListener("click", () => {
