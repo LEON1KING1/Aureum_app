@@ -43,7 +43,7 @@ function startLiveCountdown() {
       mineBtn.disabled = true;
       mineMsg.textContent = `⏳ Next mining in ${formatTime(remaining)}`;
     }
-  }, 10);
+  }, 1000);
 }
 
 mineBtn.addEventListener("click", () => {
@@ -73,7 +73,7 @@ mineBtn.addEventListener("click", () => {
     mining = false;
 
     startLiveCountdown();
-  }, 2000); // 
+  }, 20); // 
 });
 
 // navigation
