@@ -63,13 +63,13 @@ mineBtn.addEventListener("click", () => {
     mineBtn.classList.remove("mining-flash");
 
     let balance = parseInt(balanceEl.textContent || "0");
-    balance += 10;
+    balance += 500;
     balanceEl.textContent = balance;
 
     localStorage.setItem("aur_balance", balance);
     localStorage.setItem("aur_last_mine", Date.now());
 
-    mineMsg.textContent = "✅ Mining complete! +10 AUR";
+    mineMsg.textContent = "✅ Mining complete! +500 AUR";
     mining = false;
 
     startLiveCountdown();
