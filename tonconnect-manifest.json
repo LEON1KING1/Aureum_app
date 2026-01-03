@@ -1,5 +1,7 @@
 {
   "url": "https://aureumtokenn-ui.github.io/Aureum_app/",
-  "name": "Aureum App",
-  "iconUrl": "https://aureumtokenn-ui.github.io/Aureum_app/aureum_logo.png"
+  "name": "Aureum Token",
+  "iconUrl": "https://aureumtokenn-ui.github.io/Aureum_app/icon.png",
+  "termsOfUseUrl": "https://aureumtokenn-ui.github.io/Aureum_app/terms.html",
+  "privacyPolicyUrl": "https://aureumtokenn-ui.github.io/Aureum_app/privacy.html"
 }
