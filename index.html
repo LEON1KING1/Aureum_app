@@ -1,93 +1,653 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Aureum — Web App</title>
-<link rel="icon" href="aureum_logo.png">
-<link rel="stylesheet" href="style.css">
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aureum Token - Digital Wallet</title>
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .wallet-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .balance {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .balance-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .mining-section {
+            margin-bottom: 25px;
+        }
+
+        .mining-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .mining-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .mining-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+        }
+
+        .mining-timer {
+            text-align: center;
+            margin-top: 10px;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        .btn.secondary {
+            background: linear-gradient(45deg, #a8e6cf, #88d8a3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(78, 205, 196, 0.6);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .tasks-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tasks-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .task-item.completed {
+            background: #ccc;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .task-item.completed .task-check {
+            background: #28a745;
+        }
+
+        .task-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+        }
+
+        .task-check {
+            background: #28a745;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .task-reward {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .referral-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .referral-code {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            word-break: break-all;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .connect-wallet {
+            width: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .connect-wallet:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .connect-wallet.connected {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .telegram { background: #0088cc; }
+        .twitter { background: #1da1f2; }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .airdrop-status {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .balance-amount {
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container" id="homeScreen">
-    <header><h1>⚡ Aureum</h1></header>
+    <div class="container">
+        <div class="header">
+            <div class="logo">AUR</div>
+            <div class="title">Aureum Token</div>
+            <div class="subtitle">Your Digital Wallet</div>
+        </div>
 
-    <div class="card">
-      <div class="logo" role="img" aria-hidden="true"></div>
-      <div class="small">Your Balance</div>
-      <div class="balance" id="balance">0</div>
+        <div class="wallet-card">
+            <div class="balance">
+                <div class="balance-amount" id="balance">0</div>
+                <div class="balance-label">Current Balance (AUR)</div>
+            </div>
 
-      <div class="controls">
-        <button class="btn" id="connectBtn">Connect Wallet</button>
-        <button class="btn" id="mineBtn">Mine Now</button>
-      </div>
+            <div id="connectWalletBtn" class="connect-wallet">🔗 Connect TON Wallet</div>
 
-      <div id="mineMsg" class="small muted"></div>
+            <div class="mining-section">
+                <button id="miningBtn" class="mining-btn">⛏️ Start Mining</button>
+                <div id="miningTimer" class="mining-timer" style="display: none;"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="shareReferralBtn" class="btn secondary">📤 Share Referral</button>
+                <button id="copyReferralBtn" class="btn">📋 Copy Referral Link</button>
+            </div>
+        </div>
+
+        <div class="wallet-card">
+            <div class="airdrop-status" id="airdropStatus">
+                🎁 Airdrop Closed For Now
+            </div>
+        </div>
+
+        <div class="wallet-card">
+            <div class="referral-section">
+                <div class="referral-code" id="referralCode">#YOURCODE</div>
+                <div style="text-align: center; color: #666; font-size: 12px;">
+                    Each referral = 250 AUR for you + 250 AUR for invitee
+                </div>
+            </div>
+        </div>
+
+        <div class="wallet-card">
+            <div class="tasks-section">
+                <div class="tasks-title">📋 Daily Tasks</div>
+                <div id="tasksList"></div>
+            </div>
+        </div>
+
+        <div class="social-links">
+            <a href="https://t.me/AureumToken" target="_blank" class="social-btn telegram">Channel</a>
+            <a href="https://t.me/AureumToken_bot" target="_blank" class="social-btn telegram">Bot</a>
+            <a href="https://x.com/Aureum_Token" target="_blank" class="social-btn twitter">Twitter</a>
+        </div>
     </div>
 
-    <div class="section-title">Tasks</div>
+    <script>
+        let userId = localStorage.getItem('userId') || 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        let balance = parseFloat(localStorage.getItem(`balance_${userId}`)) || 0;
+        let referralCode = localStorage.getItem(`referral_${userId}`) || 'AUR' + Math.random().toString(36).substr(2, 8).toUpperCase();
+        let lastMiningTime = parseInt(localStorage.getItem(`lastMining_${userId}`)) || 0;
+        let completedTasks = JSON.parse(localStorage.getItem(`tasks_${userId}`)) || {};
+        let referrals = JSON.parse(localStorage.getItem(`referrals_${userId}`)) || [];
+        let miningInterval = 12 * 60 * 60 * 1000;
+        let tonConnectUI;
 
-    <div class="task" data-id="subscribe" onclick="window.open('https://x.com/Aureum_Token', '_blank')">
-      <div>
-        <div class="task-title">Subscribe on X</div>
-        <div class="small">Stay updated with Aureum</div>
-      </div>
-      <div class="task-reward">+700</div>
-    </div>
+        const TON_CONNECT_UI = window.TON_CONNECT_UI;
 
-    <div class="task" data-id="follow">
-      <div>
-        <div class="task-title">Follow & Share on X</div>
-        <div class="small">Retweet / Promote</div>
-      </div>
-      <div class="task-reward">+1200</div>
-    </div>
+        initApp();
 
-    <div class="task" data-id="join_channel" onclick="window.open('https://t.me/AureumToken', '_blank')">
-      <div>
-        <div class="task-title">Join Telegram Channel</div>
-        <div class="small">Community access</div>
-      </div>
-      <div class="task-reward">+1000</div>
-    </div>
+        function initApp() {
+            localStorage.setItem('userId', userId);
+            localStorage.setItem(`balance_${userId}`, balance);
+            localStorage.setItem(`referral_${userId}`, referralCode);
+            
+            try {
+                tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+                    manifestUrl: 'https://aureumtokenn-ui.github.io/Aureum_app/tonconnect-manifest.json'
+                });
+            } catch(e) {
+                console.log('TON Connect not available');
+            }
+            
+            updateUI();
+            setupEventListeners();
+            checkMiningAvailability();
+            loadTasks();
+            checkReferral();
+        }
 
-    <div class="task" data-id="invite" onclick="window.open('https://t.me/AureumToken_bot', '_blank')">
-      <div>
-        <div class="task-title">Invite friends</div>
-        <div class="small">Referral bonus for both</div>
-      </div>
-      <div class="task-reward">Invite</div>
-    </div>
+        function getReferralLink() {
+            return `https://aureumtokenn-ui.github.io/Aureum_app/?ref=${referralCode}`;
+        }
 
-  </div>
+        function updateUI() {
+            document.getElementById('balance').textContent = balance.toLocaleString();
+            document.getElementById('referralCode').textContent = referralCode;
+        }
 
-  <div class="container hidden" id="walletScreen">
-    <header><h1>Wallet</h1></header>
-    <div class="card">
-      <div class="small">Connected wallet</div>
-      <div id="walletAddr" class="small muted">Not connected</div>
-      <div style="margin-top:12px"><button class="btn" id="changeWalletBtn">Connect / Change Wallet</button></div>
-    </div>
+        function setupEventListeners() {
+            document.getElementById('miningBtn').addEventListener('click', startMining);
+            document.getElementById('copyReferralBtn').addEventListener('click', copyReferralLink);
+            document.getElementById('shareReferralBtn').addEventListener('click', shareReferral);
+            document.getElementById('connectWalletBtn').addEventListener('click', connectWallet);
+        }
 
-    <div class="card">
-      <div class="small">Airdrop</div>
-      <div id="airdropInfo" class="small muted">Airdrop locked — visible here when opened.</div>
-    </div>
-  </div>
+        function startMining() {
+            const now = Date.now();
+            if (now - lastMiningTime < miningInterval) {
+                alert('Must wait 12 hours between mining sessions');
+                return;
+            }
 
-  <div class="container hidden" id="leaderboardScreen">
-    <header><h1>Leaderboard</h1></header>
-    <div class="card" id="leaders">
-      <div class="small">Top holders will appear here</div>
-    </div>
-  </div>
+            balance += 500;
+            lastMiningTime = now;
+            
+            localStorage.setItem(`balance_${userId}`, balance);
+            localStorage.setItem(`lastMining_${userId}`, lastMiningTime);
+            
+            updateUI();
+            showMiningTimer();
+            showNotification('🎉 Mining successful! +500 AUR');
+        }
 
-  <div class="bottom-nav">
-    <div class="nav-item active" data-screen="home">Home</div>
-    <div class="nav-item" data-screen="leaderboard">Leaderboard</div>
-    <div class="nav-item" data-screen="wallet">Wallet</div>
-  </div>
+        function checkMiningAvailability() {
+            const now = Date.now();
+            const miningBtn = document.getElementById('miningBtn');
+            
+            if (now - lastMiningTime >= miningInterval) {
+                miningBtn.disabled = false;
+                miningBtn.textContent = '⛏️ Start Mining';
+                document.getElementById('miningTimer').style.display = 'none';
+            } else {
+                showMiningTimer();
+            }
+        }
 
-<script src="script.js"></script>
+        function showMiningTimer() {
+            const miningBtn = document.getElementById('miningBtn');
+            const timerEl = document.getElementById('miningTimer');
+            
+            miningBtn.disabled = true;
+            miningBtn.textContent = '⏳ Cooling Down';
+            timerEl.style.display = 'block';
+            updateMiningTimer();
+        }
+
+        function updateMiningTimer() {
+            const now = Date.now();
+            const timeLeft = miningInterval - (now - lastMiningTime);
+            
+            if (timeLeft <= 0) return true;
+            
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            document.getElementById('miningTimer').textContent = 
+                `Wait: ${hours}h ${minutes}m ${seconds}s`;
+            return false;
+        }
+
+        function loadTasks() {
+            const tasks = [
+                {
+                    id: 'telegram_channel',
+                    title: 'Join Channel',
+                    icon: '📢',
+                    reward: 1000,
+                    completed: completedTasks.telegram_channel || false,
+                    link: 'https://t.me/AureumToken'
+                },
+                {
+                    id: 'twitter_follow',
+                    title: 'Follow Twitter',
+                    icon: '🐦',
+                    reward: 1000,
+                    completed: completedTasks.twitter_follow || false,
+                    link: 'https://x.com/Aureum_Token'
+                },
+                {
+                    id: 'telegram_bot',
+                    title: 'Start Bot',
+                    icon: '🤖',
+                    reward: 1000,
+                    completed: completedTasks.telegram_bot || false,
+                    link: 'https://t.me/AureumToken_bot'
+                },
+                {
+                    id: 'referrals_10',
+                    title: '10 Successful Referrals',
+                    icon: '👥',
+                    reward: 5000,
+                    completed: referrals.length >= 10
+                }
+            ];
+
+            const tasksList = document.getElementById('tasksList');
+            tasksList.innerHTML = tasks.map(task => `
+                <div class="task-item ${task.completed ? 'completed' : ''}" 
+                     onclick="${task.completed ? '' : `handleTask('${task.id}', ${task.reward}, '${task.link || ''}')`}">
+                    <div class="task-icon ${task.completed ? 'task-check' : ''}">
+                        ${task.completed ? '✅' : task.icon}
+                    </div>
+                    <div class="task-info">
+                        <div class="task-title">${task.title}</div>
+                        <div class="task-reward">+${task.reward} AUR</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.handleTask = function(taskId, reward, link) {
+            if (completedTasks[taskId]) return;
+
+            if (link) {
+                window.open(link, '_blank');
+                setTimeout(() => completeTask(taskId, reward), 1000);
+            } else {
+                completeTask(taskId, reward);
+            }
+        };
+
+        function completeTask(taskId, reward) {
+            if (completedTasks[taskId]) return;
+
+            if (taskId === 'referrals_10' && referrals.length < 10) {
+                alert('Must invite 10 people first');
+                return;
+            }
+
+            completedTasks[taskId] = true;
+            balance += reward;
+            
+            localStorage.setItem(`tasks_${userId}`, JSON.stringify(completedTasks));
+            localStorage.setItem(`balance_${userId}`, balance);
+            
+            updateUI();
+            loadTasks();
+            showNotification(`✅ Task completed! +${reward} AUR`);
+        }
+
+        function copyReferralLink() {
+            const link = getReferralLink();
+            navigator.clipboard.writeText(link).then(() => {
+                showNotification('✅ Referral link copied');
+            });
+        }
+
+        function shareReferral() {
+            const inviteMessage = `🚀 Aureum (AUR) is live on TON blockchain!\nCommunity-driven | Transparent | Built for the future.\nJoin us 👉 ${getReferralLink()}`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Join Aureum Token',
+                    text: inviteMessage,
+                    url: getReferralLink()
+                });
+            } else {
+                navigator.clipboard.writeText(inviteMessage);
+                showNotification('✅ Invite message copied');
+            }
+        }
+
+        function checkReferral() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            
+            if (refCode && refCode !== referralCode && !localStorage.getItem(`claimed_${refCode}_${userId}`)) {
+                balance += 250;
+                localStorage.setItem(`claimed_${refCode}_${userId}`, 'true');
+                localStorage.setItem(`balance_${userId}`, balance);
+                
+                let referrerReferrals = JSON.parse(localStorage.getItem(`referrals_${refCode}`) || '[]');
+                referrerReferrals.push({userId, time: Date.now()});
+                localStorage.setItem(`referrals_${refCode}`, JSON.stringify(referrerReferrals));
+                
+                referrals = JSON.parse(localStorage.getItem(`referrals_${userId}`) || '[]');
+                updateUI();
+                showNotification('🎉 Referral bonus +250 AUR');
+            }
+        }
+
+        async function connectWallet() {
+            try {
+                if (tonConnectUI) {
+                    await tonConnectUI.connectWallet();
+                    const btn = document.getElementById('connectWalletBtn');
+                    btn.textContent = '✅ Wallet Connected';
+                    btn.classList.add('connected');
+                    btn.disabled = true;
+                } else {
+                    showNotification('🔗 TON Connect not available');
+                }
+            } catch (error) {
+                console.error('Wallet connection error:', error);
+                showNotification('❌ Wallet connection failed');
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(45deg, #4ecdc4, #44a08d);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 25px;
+                font-weight: bold;
+                z-index: 10000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        setInterval(checkMiningAvailability, 1000);
+        setInterval(() => {
+            localStorage.setItem(`balance_${userId}`, balance);
+            localStorage.setItem(`referrals_${userId}`, JSON.stringify(referrals));
+        }, 30000);
+    </script>
 </body>
 </html>
