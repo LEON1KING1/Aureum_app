@@ -31,8 +31,8 @@ function updateUI() {
 }
 
 function showMessage(message) {
-  const box = document.getElementById("ai-message");
-  if (box) box.innerText = message;
+  const el = document.getElementById("ai-message");
+  if (el) el.innerText = message;
 }
 
 /* ===============================
@@ -40,7 +40,7 @@ function showMessage(message) {
 ================================ */
 const AIEngine = {
   analyzeUser(user) {
-    if (user.points >= 1500) return "elite";
+    if (user.points >= 2000) return "elite";
     if (user.referrals >= 5) return "influencer";
     if (user.visits >= 5) return "active";
     return "new_user";
@@ -51,10 +51,10 @@ const AIEngine = {
     user.role = role;
 
     const actions = {
-      elite: { reward: 100, message: "Elite user detected" },
-      influencer: { reward: 60, message: "Influencer detected" },
-      active: { reward: 30, message: "Active user detected" },
-      new_user: { reward: 15, message: "Welcome new user" }
+      elite: { reward: 120, message: "Elite user status confirmed" },
+      influencer: { reward: 70, message: "Influencer behavior detected" },
+      active: { reward: 40, message: "Active user engagement detected" },
+      new_user: { reward: 20, message: "Welcome to Aureum" }
     };
 
     return actions[role];
@@ -62,12 +62,12 @@ const AIEngine = {
 
   learn(user, action) {
     user.history.push({
-      time: Date.now(),
+      timestamp: Date.now(),
       role: user.role,
       reward: action.reward
     });
 
-    if (user.history.length > 50) {
+    if (user.history.length > 100) {
       user.history.shift();
     }
   }
@@ -77,9 +77,9 @@ const AIEngine = {
    LEADERBOARD LOGIC
 ================================ */
 function getRank(user) {
-  if (user.points >= 2000) return "Top 1%";
-  if (user.points >= 1000) return "Top 10%";
-  if (user.points >= 500) return "Top 30%";
+  if (user.points >= 3000) return "Top 1%";
+  if (user.points >= 1500) return "Top 10%";
+  if (user.points >= 700) return "Top 30%";
   return "Rising";
 }
 
@@ -100,7 +100,7 @@ function onUserVisit() {
 }
 
 function addReferral() {
-  const bonus = user.role === "influencer" ? 60 : 30;
+  const bonus = user.role === "influencer" || user.role === "elite" ? 60 : 30;
   user.referrals++;
   user.points += bonus;
 
@@ -111,14 +111,9 @@ function addReferral() {
 /* ===============================
    BOT READY EVENTS
 ================================ */
-function onBotEvent(eventType) {
-  if (eventType === "daily_login") {
-    onUserVisit();
-  }
-
-  if (eventType === "referral_success") {
-    addReferral();
-  }
+function onBotEvent(event) {
+  if (event === "daily_login") onUserVisit();
+  if (event === "referral_success") addReferral();
 }
 
 /* ===============================
