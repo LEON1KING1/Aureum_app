@@ -9,7 +9,6 @@ const leadersList = document.getElementById("leadersList");
 const COOLDOWN = 12 * 60 * 60 * 1000;
 let currentUser = null;
 
-// تهيئة TonConnect
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://aureumtokenn-ui.github.io/Aureum_app/tonconnect-manifest.json',
     buttonRootId: 'ton-connect'
@@ -21,34 +20,36 @@ async function initApp() {
 
     const user = tg.initDataUnsafe?.user;
     if (!user) {
-        mineMsg.textContent = "Please use Telegram";
+        mineMsg.textContent = "Please open via Telegram";
         return;
     }
 
-    // جلب أو إنشاء مستخدم (سيستم DOGS)
-    let dbUser = await getUser(user.id);
-    if (!dbUser) {
-        const ageBonus = Math.floor(5000000000 / user.id); // حساب البونص بناء على ID
-        dbUser = {
-            telegram_id: user.id,
-            username: user.username || `User_${user.id}`,
-            balance: ageBonus,
-            last_mine: null
-        };
-        await upsertUser(dbUser);
-        mineMsg.textContent = `🎁 Welcome! Account age bonus: +${ageBonus}`;
+    try {
+        let dbUser = await getUser(user.id);
+        if (!dbUser) {
+            const ageBonus = Math.floor(5000000000 / user.id); 
+            dbUser = {
+                telegram_id: user.id,
+                username: user.username || `User_${user.id}`,
+                balance: ageBonus,
+                last_mine: null
+            };
+            await upsertUser(dbUser);
+            mineMsg.textContent = `🎁 Bonus: +${ageBonus} points!`;
+        }
+        currentUser = dbUser;
+        renderUI();
+        startCountdown();
+    } catch (e) {
+        console.error(e);
+        mineMsg.textContent = "Database Error";
     }
-
-    currentUser = dbUser;
-    renderUI();
-    startCountdown();
 }
 
 function renderUI() {
     balanceEl.textContent = currentUser.balance.toLocaleString();
 }
 
-// منطق التعدين
 mineBtn.addEventListener("click", async () => {
     const now = Date.now();
     if (currentUser.last_mine && now - currentUser.last_mine < COOLDOWN) return;
@@ -58,7 +59,7 @@ mineBtn.addEventListener("click", async () => {
     mineMsg.textContent = "⛏️ Mining...";
 
     setTimeout(async () => {
-        const newBalance = currentUser.balance + 500;
+        const newBalance = (currentUser.balance || 0) + 500;
         await updateBalance(currentUser.telegram_id, newBalance);
         await updateLastMine(currentUser.telegram_id, now);
         
@@ -83,14 +84,14 @@ function startCountdown() {
             mineBtn.disabled = true;
             const h = Math.floor(diff/3600000);
             const m = Math.floor((diff%3600000)/60000);
-            mineMsg.textContent = `⏳ Next mine in ${h}h ${m}m`;
+            const s = Math.floor((diff%60000)/1000);
+            mineMsg.textContent = `⏳ ${h}h ${m}m ${s}s`;
         }
     };
     update();
-    setInterval(update, 60000);
+    setInterval(update, 1000);
 }
 
-// التنقل ولوحة الصدارة
 document.querySelectorAll(".nav-item").forEach(item => {
     item.addEventListener("click", async () => {
         const screen = item.getAttribute("data-screen");
@@ -100,11 +101,12 @@ document.querySelectorAll(".nav-item").forEach(item => {
         document.getElementById(`${screen}Screen`).classList.remove("hidden");
 
         if (screen === 'leaderboard') {
+            leadersList.innerHTML = "Loading...";
             const top = await getTopHolders(10);
             leadersList.innerHTML = top.map((u, i) => `
-                <div class="task">
+                <div class="task" style="cursor:default">
                     <div><b>#${i+1}</b> ${u.username}</div>
-                    <div class="task-reward">${u.balance} AUR</div>
+                    <div class="task-reward">${u.balance.toLocaleString()}</div>
                 </div>
             `).join('');
         }
