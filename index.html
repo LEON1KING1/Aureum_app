@@ -1,59 +1,71 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Aureum — Web App</title>
-    <link rel="icon" href="aureum_logo.png">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aureum — Web App</title>
+<link rel="icon" href="aureum_logo.png">
+<link rel="stylesheet" href="style.css">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 </head>
 <body>
-    <div class="container" id="homeScreen">
-        <header><h1>⚡ Aureum</h1></header>
-        <div class="card">
-            <div class="logo" role="img" aria-hidden="true"></div>
-            <div class="small">Your Balance</div>
-            <div class="balance" id="balance">0</div>
-            <div class="controls">
-                <div id="ton-connect"></div> <button class="btn" id="mineBtn">Mine Now</button>
-            </div>
-            <div id="mineMsg" class="small muted">⚡ Initializing...</div>
-        </div>
+  <div class="container" id="homeScreen">
+    <header><h1>⚡ Aureum</h1></header>
 
-        <div class="section-title">Tasks</div>
-        <div class="task" onclick="window.open('https://x.com/Aureum_Token', '_blank')">
-            <div><div class="task-title">Subscribe on X</div><div class="small">Stay updated</div></div>
-            <div class="task-reward">+700</div>
-        </div>
-        <div class="task" onclick="window.open('https://t.me/AureumToken', '_blank')">
-            <div><div class="task-title">Join Telegram</div><div class="small">Community access</div></div>
-            <div class="task-reward">+1000</div>
-        </div>
+    <div class="card">
+      <div class="logo" role="img" aria-hidden="true"></div>
+      <div class="small">Your Balance</div>
+      <div class="balance" id="balance">0</div>
+
+      <div class="controls">
+        <div id="ton-connect" style="margin-bottom: 10px;"></div>
+        <button class="btn" id="mineBtn">Mine Now</button>
+      </div>
+
+      <div id="mineMsg" class="small muted">⚡ Initializing...</div>
     </div>
 
-    <div class="container hidden" id="leaderboardScreen">
-        <header><h1>Leaderboard</h1></header>
-        <div class="card" id="leadersList">
-            <div class="small">Loading rankings...</div>
-        </div>
+    <div class="section-title">Tasks</div>
+
+    <div class="task" onclick="window.open('https://x.com/Aureum_Token', '_blank')">
+      <div>
+        <div class="task-title">Subscribe on X</div>
+        <div class="small">Stay updated with Aureum</div>
+      </div>
+      <div class="task-reward">+700</div>
     </div>
 
-    <div class="container hidden" id="walletScreen">
-        <header><h1>Wallet</h1></header>
-        <div class="card">
-            <div class="small">Status</div>
-            <div id="walletAddr" class="small muted">Connect your TON wallet</div>
-        </div>
+    <div class="task" onclick="window.open('https://t.me/AureumToken', '_blank')">
+      <div>
+        <div class="task-title">Join Telegram Channel</div>
+        <div class="small">Community access</div>
+      </div>
+      <div class="task-reward">+1000</div>
     </div>
 
-    <nav class="bottom-nav">
-        <div class="nav-item active" data-screen="home">Home</div>
-        <div class="nav-item" data-screen="leaderboard">Leaderboard</div>
-        <div class="nav-item" data-screen="wallet">Wallet</div>
-    </nav>
+  </div>
 
-    <script type="module" src="script.js"></script>
+  <div class="container hidden" id="walletScreen">
+    <header><h1>Wallet</h1></header>
+    <div class="card">
+      <div class="small">Connect your TON wallet to see airdrop details.</div>
+    </div>
+  </div>
+
+  <div class="container hidden" id="leaderboardScreen">
+    <header><h1>Leaderboard</h1></header>
+    <div class="card" id="leadersList">
+      <div class="small">Loading rankings...</div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active" data-screen="home">Home</div>
+    <div class="nav-item" data-screen="leaderboard">Leaderboard</div>
+    <div class="nav-item" data-screen="wallet">Wallet</div>
+  </div>
+
+<script type="module" src="script.js"></script>
 </body>
 </html>
