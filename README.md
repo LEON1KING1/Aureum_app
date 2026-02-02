@@ -14,7 +14,7 @@
 ## ⚡ Features
 - 🪙 Real-time balance tracking
 - 🤝 Invite system
-- ⏳ 24h dynamic countdown timer
+- ⏳ 12h dynamic countdown timer
 - 🧾 Auto user data saving (JSON)
 - 💎 Smooth gold-dark UI
 - 🚀 Ready for Replit & GitHub Pages
