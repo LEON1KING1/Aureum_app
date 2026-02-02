@@ -1,6 +1,12 @@
 import { getUser, upsertUser, updateBalance, updateLastMine, getTopHolders, supabase } from './supabase.js';
 
 const tg = window.Telegram?.WebApp;
+const user = tg?.initDataUnsafe?.user;
+
+if (!user) {
+    document.body.innerHTML = "<div style='color:white;text-align:center;padding-top:100px;'>Please open from Telegram</div>";
+}
+
 const balanceEl = document.getElementById("balance");
 const mineBtn = document.getElementById("mineBtn");
 const mineMsg = document.getElementById("mineMsg");
@@ -11,7 +17,6 @@ const referralsList = document.getElementById("referralsList");
 const COOLDOWN = 12 * 60 * 60 * 1000;
 const REF_REWARD = 2500;
 let currentUser = null;
-let timerInterval = null;
 
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://aureumtokenn-ui.github.io/Aureum_app/tonconnect-manifest.json',
@@ -19,23 +24,22 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
 });
 
 async function initApp() {
-    tg?.ready();
-    tg?.expand();
-    const user = tg?.initDataUnsafe?.user || { id: 12345, username: "Guest" };
-    const startParam = tg?.initDataUnsafe?.start_param;
+    if (!user) return;
+    tg.ready(); tg.expand();
 
     try {
         let dbUser = await getUser(user.id);
         if (!dbUser) {
-            let initialBalance = Math.floor(2000000000 / user.id) || 1000;
-            if (startParam && startParam.startsWith('ref_')) {
+            let initialBalance = 1000;
+            const startParam = tg.initDataUnsafe?.start_param;
+            if (startParam?.startsWith('ref_')) {
                 const rid = parseInt(startParam.replace('ref_', ''));
                 if (rid !== user.id) {
                     initialBalance += REF_REWARD;
                     await registerReferral(rid, user.id);
                 }
             }
-            dbUser = { telegram_id: user.id, username: user.username || `User_${user.id}`, balance: initialBalance, last_mine: 0 };
+            dbUser = { telegram_id: user.id, username: user.username || user.first_name, balance: initialBalance, last_mine: 0 };
             await upsertUser(dbUser);
         }
         currentUser = dbUser;
@@ -55,11 +59,16 @@ async function registerReferral(rid, uid) {
 
 async function loadReferrals() {
     try {
-        const { data } = await supabase.from('referrals').select('referred_id, users!referrals_referred_id_fkey(username)').eq('referrer_id', currentUser.telegram_id);
-        if (data && data.length > 0) {
-            referralsList.innerHTML = data.map(r => `<div class="task" style="margin:5px 0"><span>👤 ${r.users.username}</span><span style="color:#ffd700">+${REF_REWARD}</span></div>`).join('');
+        const { data } = await supabase.from('referrals').select('users!referrals_referred_id_fkey(username)').eq('referrer_id', currentUser.telegram_id);
+        if (data?.length > 0) {
+            referralsList.innerHTML = data.map(r => `<div class="task">👤 ${r.users.username} <span style="color:#ffd700">+${REF_REWARD}</span></div>`).join('');
         }
     } catch (e) { console.error(e); }
+}
+
+async function getUserRank() {
+    const { count } = await supabase.from('users').select('*', { count: 'exact', head: true }).gt('balance', currentUser.balance);
+    return (count || 0) + 1;
 }
 
 function updateUI() {
@@ -70,20 +79,17 @@ mineBtn.onclick = async () => {
     const now = Date.now();
     if (now - Number(currentUser.last_mine) < COOLDOWN) return;
     mineBtn.disabled = true;
-    mineBtn.classList.add("mining-flash");
     try {
         const newBal = Number(currentUser.balance) + 500;
         await updateBalance(currentUser.telegram_id, newBal);
         await updateLastMine(currentUser.telegram_id, now);
         currentUser.balance = newBal; currentUser.last_mine = now;
         updateUI(); startCountdown();
-        mineBtn.classList.remove("mining-flash");
     } catch (e) { mineBtn.disabled = false; }
 };
 
 function startCountdown() {
-    if (timerInterval) clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
+    setInterval(() => {
         const diff = COOLDOWN - (Date.now() - Number(currentUser.last_mine));
         if (diff <= 0) { mineBtn.disabled = false; mineMsg.textContent = "⚡ Ready"; }
         else {
@@ -94,12 +100,6 @@ function startCountdown() {
     }, 1000);
 }
 
-shareLinkBtn.onclick = () => {
-    const link = `https://t.me/AureumToken_bot/app?startapp=ref_${currentUser.telegram_id}`;
-    const text = `Join Aureum! Mine tokens and get 2,500 AUR bonus! 🚀`;
-    tg?.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`);
-};
-
 document.querySelectorAll(".nav-item").forEach(item => {
     item.onclick = async () => {
         const screen = item.dataset.screen;
@@ -107,14 +107,25 @@ document.querySelectorAll(".nav-item").forEach(item => {
         document.getElementById(`${screen}Screen`).classList.remove("hidden");
         document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
         item.classList.add("active");
+
         if (screen === 'leaderboard') {
-            const top = await getTopHolders(10);
-            leadersList.innerHTML = top.map((u, i) => `<div class="task"><b>#${i+1}</b> ${u.username} <span style="color:#ffd700">${u.balance}</span></div>`).join('');
+            const userRankContainer = document.getElementById('currentUserRank');
+            const rank = await getUserRank();
+            userRankContainer.innerHTML = `<div style="display:flex; justify-content:space-between;"><span><b>#${rank.toLocaleString()}</b> You</span><span>${Number(currentUser.balance).toLocaleString()} AUR</span></div>`;
+            
+            const top100 = await getTopHolders(100);
+            leadersList.innerHTML = top100.map((u, i) => `
+                <div class="task" style="${u.username === currentUser.username ? 'border:1px solid #ffd700' : ''}">
+                    <span>${i < 3 ? ['🥇','🥈','🥉'][i] : '#'+(i+1)} ${u.username}</span>
+                    <span style="color:#ffd700">${Number(u.balance).toLocaleString()}</span>
+                </div>`).join('');
         }
     };
 });
 
-document.getElementById("taskX").onclick = () => window.open('https://x.com/Aureum_Token', '_blank');
-document.getElementById("taskTG").onclick = () => window.open('https://t.me/AureumToken', '_blank');
+shareLinkBtn.onclick = () => {
+    const link = `https://t.me/AureumToken_bot/app?startapp=ref_${currentUser.telegram_id}`;
+    tg.openTelegramLink(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent("Join Aureum and earn 2500 bonus points!")}`);
+};
 
 initApp();
