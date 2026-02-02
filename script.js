@@ -16,16 +16,18 @@ const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
 });
 
 async function initApp() {
-    tg?.ready();
-    tg?.expand();
+    if (tg) {
+        tg.ready();
+        tg.expand();
+    }
 
-    const user = tg?.initDataUnsafe?.user || { id: 888888, username: "Tester" };
+    const user = tg?.initDataUnsafe?.user || { id: 123456, username: "Aureum_User" };
 
     try {
         let dbUser = await getUser(user.id);
         
         if (!dbUser) {
-            const ageBonus = Math.floor(2000000000 / user.id) || 1200;
+            const ageBonus = Math.floor(2000000000 / user.id) || 1000;
             dbUser = {
                 telegram_id: user.id,
                 username: user.username || `User_${user.id}`,
@@ -33,15 +35,15 @@ async function initApp() {
                 last_mine: 0
             };
             await upsertUser(dbUser);
-            mineMsg.innerHTML = `<span style="color:#ffd700">🎁 Bonus: +${ageBonus.toLocaleString()}</span>`;
+            mineMsg.innerHTML = `<span style="color:#ffd700">🎁 Welcome Bonus: +${ageBonus.toLocaleString()}</span>`;
         }
 
         currentUser = dbUser;
         updateUI();
         startCountdown();
     } catch (e) {
-        console.error("Init Error:", e);
-        mineMsg.textContent = "⚠️ Database Syncing...";
+        console.error(e);
+        mineMsg.textContent = "⚠️ DB Sync Error";
     }
 }
 
@@ -61,41 +63,47 @@ mineBtn.onclick = async () => {
 
     mineBtn.disabled = true;
     mineBtn.classList.add("mining-flash");
-    mineMsg.textContent = "⛏️ Mining...";
+    mineMsg.textContent = "⛏️ Mining AUR...";
 
     try {
         const newBalance = Number(currentUser.balance || 0) + 500;
         
-        // تحديث متزامن لضمان التنفيذ
-        await Promise.all([
-            updateBalance(currentUser.telegram_id, newBalance),
-            updateLastMine(currentUser.telegram_id, now)
-        ]);
+        await updateBalance(currentUser.telegram_id, newBalance);
+        await updateLastMine(currentUser.telegram_id, now);
         
         currentUser.balance = newBalance;
         currentUser.last_mine = now;
         
         updateUI();
         mineBtn.classList.remove("mining-flash");
-        mineMsg.textContent = "✅ Success! +500 AUR";
-        
+        mineMsg.textContent = "✅ Mined +500 AUR!";
         startCountdown();
     } catch (e) {
-        console.error("Mine Error:", e);
-        mineMsg.textContent = "❌ Failed to save. Check RLS.";
+        mineMsg.textContent = "❌ Save Error";
         mineBtn.disabled = false;
         mineBtn.classList.remove("mining-flash");
     }
 };
 
+async function completeTask(reward) {
+    if (!currentUser) return;
+    try {
+        const newBalance = Number(currentUser.balance) + reward;
+        await updateBalance(currentUser.telegram_id, newBalance);
+        currentUser.balance = newBalance;
+        updateUI();
+        tg?.showScanQrPopup({ text: `Task Complete! +${reward} AUR` });
+        setTimeout(() => tg?.closeScanQrPopup(), 2000);
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 function startCountdown() {
     if (timerInterval) clearInterval(timerInterval);
-
     const updateTimer = () => {
         const now = Date.now();
-        const lastMine = Number(currentUser?.last_mine || 0);
-        const diff = COOLDOWN - (now - lastMine);
-
+        const diff = COOLDOWN - (now - Number(currentUser?.last_mine || 0));
         if (diff <= 0) {
             clearInterval(timerInterval);
             mineBtn.disabled = false;
@@ -105,10 +113,9 @@ function startCountdown() {
             const h = Math.floor(diff / 3600000);
             const m = Math.floor((diff % 3600000) / 60000);
             const s = Math.floor((diff % 60000) / 1000);
-            mineMsg.textContent = `⏳ ${h}h ${m}m ${s}s`;
+            mineMsg.textContent = `⏳ Next mine: ${h}h ${m}m ${s}s`;
         }
     };
-
     updateTimer();
     timerInterval = setInterval(updateTimer, 1000);
 }
@@ -124,15 +131,26 @@ document.querySelectorAll(".nav-item").forEach(item => {
 
         if (screen === 'leaderboard') {
             leadersList.innerHTML = "Loading...";
-            const top = await getTopHolders(10);
-            leadersList.innerHTML = top.map((u, i) => `
-                <div class="task" style="cursor:default">
-                    <div><b>#${i+1}</b> ${u.username}</div>
-                    <div class="task-reward">${Number(u.balance).toLocaleString()}</div>
-                </div>
-            `).join('');
+            try {
+                const top = await getTopHolders(10);
+                leadersList.innerHTML = top.map((u, i) => `
+                    <div class="task" style="cursor:default">
+                        <div><b>#${i+1}</b> ${u.username}</div>
+                        <div class="task-reward">${Number(u.balance).toLocaleString()}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                leadersList.innerHTML = "Sync Error";
+            }
         }
     });
+});
+
+document.querySelectorAll('.task').forEach((task, index) => {
+    task.onclick = () => {
+        const reward = index === 0 ? 700 : 1000;
+        completeTask(reward);
+    };
 });
 
 initApp();
