@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -13,59 +13,59 @@
         <header><h1>⚡ Aureum</h1></header>
         <div class="card">
             <div class="logo"></div>
-            <div class="small">رصيدك الحالي</div>
+            <div class="small">Current Balance</div>
             <div class="balance" id="balance">0</div>
             <div class="controls">
-                <button class="btn" id="mineBtn">ابدأ التعدين</button>
+                <button class="btn" id="mineBtn">Start Mining</button>
             </div>
-            <div id="mineMsg" class="small muted">⚡ جاري التحميل...</div>
+            <div id="mineMsg" class="small muted">⚡ Loading...</div>
         </div>
-        <div class="section-title">المهام السريعة</div>
+        <div class="section-title">Quick Tasks</div>
         <div class="task" id="taskX">
-            <div><div class="task-title">متابعة على X</div><div class="small">+700 AUR</div></div>
-            <div class="task-reward">انطلق</div>
+            <div><div class="task-title">Follow on X</div><div class="small">+700 AUR</div></div>
+            <div class="task-reward">Go</div>
         </div>
         <div class="task" id="taskTG">
-            <div><div class="task-title">قناة التليجرام</div><div class="small">+1000 AUR</div></div>
-            <div class="task-reward">انضم</div>
+            <div><div class="task-title">Telegram Channel</div><div class="small">+1000 AUR</div></div>
+            <div class="task-reward">Join</div>
         </div>
     </div>
 
     <div class="container hidden" id="leaderboardScreen">
-        <header><h1>قائمة المتصدرين</h1></header>
+        <header><h1>Leaderboard</h1></header>
         <div id="userRankSection">
-            <div class="small" style="color: #ffd700; margin-bottom: 5px;">مركزك العالمي:</div>
+            <div class="small" style="color: #ffd700; margin-bottom: 5px;">Your Global Rank:</div>
             <div id="currentUserRank" class="card" style="border: 2px solid #ffd700; background: rgba(255, 215, 0, 0.1); margin-bottom: 20px;">
-                <div class="small">جاري الحساب...</div>
+                <div class="small">Calculating...</div>
             </div>
         </div>
-        <div class="section-title">أفضل 100 لاعب 🏆</div>
+        <div class="section-title">Top 100 Players 🏆</div>
         <div id="leadersList" style="max-height: 400px; overflow-y: auto;">
-            جاري التحميل...
+            Loading...
         </div>
     </div>
 
     <div class="container hidden" id="walletScreen">
-        <header><h1>المحفظة</h1></header>
+        <header><h1>Wallet</h1></header>
         <div class="card">
-            <div class="small">ربط محفظة TON</div>
+            <div class="small">Connect TON Wallet</div>
             <div id="ton-connect" style="margin-top:10px"></div>
         </div>
         <div class="card">
-            <div class="small">برنامج الإحالة</div>
+            <div class="small">Referral Program</div>
             <div class="balance" style="font-size: 20px;">+2,500 AUR</div>
-            <button class="btn" id="shareLinkBtn" style="margin-top:10px">دعوة الأصدقاء 🚀</button>
-            <div style="margin-top:20px; text-align:right;">
-                <div class="small" style="color:#ffd700">قائمة إحالاتك:</div>
-                <div id="referralsList" class="small muted" style="margin-top:10px">لا توجد إحالات</div>
+            <button class="btn" id="shareLinkBtn" style="margin-top:10px">Invite Friends 🚀</button>
+            <div style="margin-top:20px; text-align:left;">
+                <div class="small" style="color:#ffd700">Your Referrals:</div>
+                <div id="referralsList" class="small muted" style="margin-top:10px">No referrals yet</div>
             </div>
         </div>
     </div>
 
     <nav class="bottom-nav">
-        <div class="nav-item active" data-screen="home">الرئيسية</div>
-        <div class="nav-item" data-screen="leaderboard">المتصدرين</div>
-        <div class="nav-item" data-screen="wallet">المحفظة</div>
+        <div class="nav-item active" data-screen="home">Home</div>
+        <div class="nav-item" data-screen="leaderboard">Leaders</div>
+        <div class="nav-item" data-screen="wallet">Wallet</div>
     </nav>
 
     <script type="module" src="script.js"></script>
