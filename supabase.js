@@ -46,4 +46,16 @@ export async function updateLastMine(telegram_id, timestamp) {
   if (error) throw error;
   return data;
 }
+// أضف هذه الدالة للملف الموجود لديك
+export async function getTopHolders(limit = 10) {
+  const { data, error } = await supabase
+    .from('users')
+    .select('username, balance')
+    .order('balance', { ascending: false })
+    .limit(limit);
+
+  if (error) throw error;
+  return data;
+}
+
 ```
