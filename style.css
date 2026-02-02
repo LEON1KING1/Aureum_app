@@ -7,7 +7,7 @@ body {
   text-align: center;
 }
 
-.container { padding: 20px; }
+.container { padding: 20px; padding-bottom: 80px; }
 .hidden { display: none; }
 
 header h1 {
@@ -22,22 +22,21 @@ header h1 {
   margin: 10px auto;
   max-width: 340px;
   box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);
-  transition: transform 0.3s ease;
 }
-.card:hover { transform: scale(1.02); }
 
 .logo {
   width: 80px;
   height: 80px;
   background: url('aureum_logo.png') center/cover no-repeat;
   margin: 10px auto;
+  border-radius: 50%;
 }
 
 .small { font-size: 13px; }
 .muted { color: #999; }
 
 .balance {
-  font-size: 28px;
+  font-size: 32px;
   margin: 10px 0;
   color: #ffd700;
   font-weight: bold;
@@ -47,22 +46,22 @@ header h1 {
   background: linear-gradient(135deg, #ffd700, #ffb300);
   border: none;
   color: #000;
-  padding: 10px 16px;
-  border-radius: 8px;
+  padding: 12px 20px;
+  border-radius: 12px;
   margin: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
   font-weight: 600;
-}
-.btn:hover {
-  background: linear-gradient(135deg, #ffb300, #ffd700);
-  transform: scale(1.05);
+  width: 100%;
 }
 
 .section-title {
   margin-top: 30px;
   font-size: 18px;
   color: #ffd700;
+  text-align: left;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .task {
@@ -74,10 +73,9 @@ header h1 {
   margin: 8px auto;
   max-width: 340px;
   border-radius: 10px;
-  transition: background 0.3s ease;
   cursor: pointer;
 }
-.task:hover { background: #2b2b2b; }
+
 .task-reward { color: #ffd700; font-weight: 600; }
 
 .bottom-nav {
@@ -88,16 +86,15 @@ header h1 {
   display: flex;
   justify-content: space-around;
   background: #1a1a1a;
-  padding: 10px 0;
+  padding: 15px 0;
+  border-top: 1px solid #333;
 }
 .nav-item { color: #aaa; font-weight: 500; cursor: pointer; }
 .nav-item.active { color: #ffd700; }
 
-.mining-flash {
-  animation: flash 0.6s ease-in-out;
-}
+.mining-flash { animation: flash 0.6s ease-in-out infinite; }
 @keyframes flash {
-  0% { background-color: rgba(255, 215, 0, 0.1); }
-  50% { background-color: rgba(255, 215, 0, 0.4); }
-  100% { background-color: transparent; }
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
 }
