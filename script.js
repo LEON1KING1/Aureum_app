@@ -1,6 +1,8 @@
 import { getUser, upsertUser, updateBalance, updateLastMine, getTopHolders } from './supabase.js';
 
-const tg = window.Telegram.WebApp;
+//  Telegram WebApp
+const tg = window.Telegram?.WebApp;
+
 const balanceEl = document.getElementById("balance");
 const mineBtn = document.getElementById("mineBtn");
 const mineMsg = document.getElementById("mineMsg");
@@ -9,24 +11,37 @@ const leadersList = document.getElementById("leadersList");
 const COOLDOWN = 12 * 60 * 60 * 1000;
 let currentUser = null;
 
-const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: 'https://aureumtokenn-ui.github.io/Aureum_app/tonconnect-manifest.json',
-    buttonRootId: 'ton-connect'
-});
+// 
+let tonConnectUI;
+try {
+    tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: 'https://aureumtokenn-ui.github.io/Aureum_app/tonconnect-manifest.json',
+        buttonRootId: 'ton-connect'
+    });
+} catch (e) {
+    console.error("TonConnect failed to load", e);
+}
 
 async function initApp() {
+    if (!tg) {
+        mineMsg.textContent = "Error: Open via Telegram";
+        return;
+    }
+    
     tg.ready();
     tg.expand();
 
     const user = tg.initDataUnsafe?.user;
-    if (!user) {
-        mineMsg.textContent = "Please open via Telegram";
+    
+    if (!user || !user.id) {
+        mineMsg.textContent = "Please use Telegram App";
         return;
     }
 
     try {
         let dbUser = await getUser(user.id);
         if (!dbUser) {
+            // 
             const ageBonus = Math.floor(5000000000 / user.id); 
             dbUser = {
                 telegram_id: user.id,
@@ -35,22 +50,25 @@ async function initApp() {
                 last_mine: null
             };
             await upsertUser(dbUser);
-            mineMsg.textContent = `🎁 Bonus: +${ageBonus} points!`;
+            mineMsg.textContent = `🎁 Bonus: +${ageBonus.toLocaleString()}`;
         }
         currentUser = dbUser;
-        renderUI();
+        updateDisplay();
         startCountdown();
     } catch (e) {
-        console.error(e);
-        mineMsg.textContent = "Database Error";
+        console.error("DB Error:", e);
+        mineMsg.textContent = "Connection Error";
     }
 }
 
-function renderUI() {
-    balanceEl.textContent = currentUser.balance.toLocaleString();
+function updateDisplay() {
+    if (currentUser) {
+        balanceEl.textContent = currentUser.balance.toLocaleString();
+    }
 }
 
 mineBtn.addEventListener("click", async () => {
+    if (!currentUser) return;
     const now = Date.now();
     if (currentUser.last_mine && now - currentUser.last_mine < COOLDOWN) return;
 
@@ -58,7 +76,7 @@ mineBtn.addEventListener("click", async () => {
     mineBtn.classList.add("mining-flash");
     mineMsg.textContent = "⛏️ Mining...";
 
-    setTimeout(async () => {
+    try {
         const newBalance = (currentUser.balance || 0) + 500;
         await updateBalance(currentUser.telegram_id, newBalance);
         await updateLastMine(currentUser.telegram_id, now);
@@ -66,18 +84,23 @@ mineBtn.addEventListener("click", async () => {
         currentUser.balance = newBalance;
         currentUser.last_mine = now;
         
-        renderUI();
+        updateDisplay();
         mineBtn.classList.remove("mining-flash");
-        mineMsg.textContent = "✅ +500 AUR Mined!";
+        mineMsg.textContent = "✅ Success! +500 AUR";
         startCountdown();
-    }, 2000);
+    } catch (e) {
+        mineMsg.textContent = "Error saving progress";
+        mineBtn.disabled = false;
+    }
 });
 
 function startCountdown() {
-    const update = () => {
+    const timer = setInterval(() => {
         const now = Date.now();
-        const diff = COOLDOWN - (now - (currentUser.last_mine || 0));
+        const diff = COOLDOWN - (now - (currentUser?.last_mine || 0));
+        
         if (diff <= 0) {
+            clearInterval(timer);
             mineBtn.disabled = false;
             mineMsg.textContent = "⚡ Ready to mine";
         } else {
@@ -87,28 +110,33 @@ function startCountdown() {
             const s = Math.floor((diff%60000)/1000);
             mineMsg.textContent = `⏳ ${h}h ${m}m ${s}s`;
         }
-    };
-    update();
-    setInterval(update, 1000);
+    }, 1000);
 }
 
+// 
 document.querySelectorAll(".nav-item").forEach(item => {
     item.addEventListener("click", async () => {
         const screen = item.getAttribute("data-screen");
         document.querySelectorAll(".container").forEach(c => c.classList.add("hidden"));
         document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
         item.classList.add("active");
-        document.getElementById(`${screen}Screen`).classList.remove("hidden");
+        
+        const targetScreen = document.getElementById(`${screen}Screen`);
+        if (targetScreen) targetScreen.classList.remove("hidden");
 
         if (screen === 'leaderboard') {
             leadersList.innerHTML = "Loading...";
-            const top = await getTopHolders(10);
-            leadersList.innerHTML = top.map((u, i) => `
-                <div class="task" style="cursor:default">
-                    <div><b>#${i+1}</b> ${u.username}</div>
-                    <div class="task-reward">${u.balance.toLocaleString()}</div>
-                </div>
-            `).join('');
+            try {
+                const top = await getTopHolders(10);
+                leadersList.innerHTML = top.map((u, i) => `
+                    <div class="task" style="cursor:default">
+                        <div><b>#${i+1}</b> ${u.username}</div>
+                        <div class="task-reward">${u.balance.toLocaleString()}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                leadersList.innerHTML = "Error loading leaders";
+            }
         }
     });
 });
